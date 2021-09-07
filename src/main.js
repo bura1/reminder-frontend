@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import BootstrapVue from 'bootstrap-vue'
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false
 
@@ -15,6 +18,8 @@ const router = new VueRouter({
     mode: 'history',
     routes
 })
+
+Vue.use(BootstrapVue)
 
 new Vue({
     router,
