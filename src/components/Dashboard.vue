@@ -11,14 +11,16 @@
                 </b-tab>
 
                 <template #tabs-end>
-                    <b-form inline class="form-new-category">
-                        <label class="sr-only" for="category">Name</label>
-                        <b-form-input
-                            id="category"
-                            class="mb-2 mr-sm-2 mb-sm-0"
-                            placeholder="Ime kategorije"
-                        ></b-form-input>
-                        <b-button variant="primary">+</b-button>
+                    <b-form inline class="form-new-category" @submit="newCategory">
+                        <b-form-group id="input-group-1" label-for="input-1">
+                            <b-form-input
+                                id="input-1"
+                                v-model="form_new_cat.newCategory"
+                                placeholder="Dodaj novu kategoriju"
+                                required
+                            ></b-form-input>
+                        </b-form-group>
+                        <b-button type="submit" variant="primary">+</b-button>
                     </b-form>
                 </template>
 
@@ -58,7 +60,10 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            categories: {}
+            categories: {},
+            form_new_cat: {
+                newCategory: ''
+            }
         }
     },
     async created () {
@@ -66,8 +71,14 @@ export default {
         this.categories = response.data
     },
     methods: {
-        click() {
-            console.log(this.categories);
+        newCategory(event) {
+            event.preventDefault()
+            this.categories.forEach(el => console.log(el.id));
+            this.categories.push({
+                id: 5,
+                name: this.form_new_cat.newCategory,
+                slug: this.form_new_cat.newCategory.toLowerCase()
+            })
         }
     }
 }
@@ -76,6 +87,10 @@ export default {
 <style>
 .form-new-category {
     margin-top: 50px;
+}
+.form-new-category .form-control {
+    margin-right: 10px;
+    max-width: 217px;
 }
 .card {
     border: none;
