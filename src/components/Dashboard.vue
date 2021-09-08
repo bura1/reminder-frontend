@@ -27,30 +27,11 @@
                 <!-- Render this if no tabs -->
                 <template #empty>
                     <div class="text-center text-muted">
-                        There are no open categories<br>
-                        Open a new category using the <b>+</b> button above.
+                        Otvori novu kategoriju klikom na <b>+</b> button.
                     </div>
                 </template>
             </b-tabs>
         </b-card>
-        <!--<b-card no-body>
-            <b-tabs pills card vertical v-for="category in categories">
-                <b-tab title="{{ category.name }}">{{ category.name }}</b-tab>
-
-                <template #tabs-end>
-                    <b-form inline class="form-new-category">
-                        <label class="sr-only" for="category">Name</label>
-                        <b-form-input
-                            id="category"
-                            class="mb-2 mr-sm-2 mb-sm-0"
-                            placeholder="Ime kategorije"
-                        ></b-form-input>
-                        <b-button variant="primary">Dodaj</b-button>
-                    </b-form>
-                </template>
-
-            </b-tabs>
-        </b-card>-->
     </div>
 </template>
 
@@ -63,22 +44,23 @@ export default {
             categories: {},
             form_new_cat: {
                 newCategory: ''
-            }
+            },
+            response: ""
         }
     },
     async created () {
-        const response = await axios.get('https://localhost:8001/categories')
-        this.categories = response.data
+        await this.getResponse();
+        this.categories = this.response.data
     },
     methods: {
-        newCategory(event) {
+        async getResponse() {
+            this.response = await axios.get('https://localhost:8001/categories')
+        },
+        async newCategory(event) {
             event.preventDefault()
-            this.categories.forEach(el => console.log(el.id));
-            this.categories.push({
-                id: 5,
-                name: this.form_new_cat.newCategory,
-                slug: this.form_new_cat.newCategory.toLowerCase()
-            })
+            axios.post('https://localhost:8001/categories/new/' + this.form_new_cat.newCategory);
+            await this.getResponse();
+            this.categories = this.response.data
         }
     }
 }
