@@ -5,7 +5,7 @@
 
                 <b-tab v-for="cat in categories" :key="cat.id" :title="cat.name">
                     Tab contents {{ cat }}
-                    <b-button size="sm" variant="danger" class="float-right" @click="closeTab(cat)">
+                    <b-button size="sm" variant="danger" class="float-right" @click="closeCategory(cat.id)">
                         Close tab
                     </b-button>
                 </b-tab>
@@ -58,7 +58,13 @@ export default {
         },
         async newCategory(event) {
             event.preventDefault()
-            axios.post('https://localhost:8001/categories/new/' + this.form_new_cat.newCategory);
+            await axios.post('https://localhost:8001/categories/new/' + this.form_new_cat.newCategory);
+            await this.getResponse();
+            this.categories = this.response.data
+            this.form_new_cat.newCategory = "";
+        },
+        async closeCategory(id) {
+            await axios.delete('https://localhost:8001/categories/delete/' + id);
             await this.getResponse();
             this.categories = this.response.data
         }
