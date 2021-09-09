@@ -1,24 +1,9 @@
-# reminder-front
+Vue.js frontend for Reminder app
 
-## Project setup
-```
-yarn install
-```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+yarn install<br>
+yarn serve<br>
+yarn build<br>
+yarn lint<br>
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
