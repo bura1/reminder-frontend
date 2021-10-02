@@ -4,7 +4,7 @@
             <b-tabs pills card vertical>
 
                 <b-tab v-for="cat in categories" :key="cat.id" :title="cat.name">
-                    Tab contents {{ cat }}
+                    <reminders :category="cat"></reminders>
                     <b-button size="sm" variant="danger" class="float-right" @click="closeCategory(cat.id)">
                         Close tab
                     </b-button>
@@ -37,8 +37,10 @@
 
 <script>
 import axios from 'axios'
+import Reminders from './Reminders.vue'
 
 export default {
+  components: { Reminders },
     data() {
         return {
             categories: {},
@@ -54,17 +56,17 @@ export default {
     },
     methods: {
         async getResponse() {
-            this.response = await axios.get('https://localhost:8001/categories')
+            this.response = await axios.get('https://localhost:8000/categories')
         },
         async newCategory(event) {
             event.preventDefault()
-            await axios.post('https://localhost:8001/categories/new/' + this.form_new_cat.newCategory);
+            await axios.post('https://localhost:8000/categories/new/' + this.form_new_cat.newCategory);
             await this.getResponse();
             this.categories = this.response.data
             this.form_new_cat.newCategory = "";
         },
         async closeCategory(id) {
-            await axios.delete('https://localhost:8001/categories/delete/' + id);
+            await axios.delete('https://localhost:8000/categories/delete/' + id);
             await this.getResponse();
             this.categories = this.response.data
         }
